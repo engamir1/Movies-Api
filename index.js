@@ -7,23 +7,15 @@ const getData = async (eventData) => {
       //   i: eventData.toString(),
     },
   });
-  console.log(response.data);
+
+  if (response.data.Error) {
+    return [];
+  }
+  //   console.log(response.data.Search);
+  return response.data.Search;
 };
+
 // = null
-
-const debounce = (func, delay) => {
-  let timeoutid;
-  return (...args) => {
-    if (timeoutid) {
-      clearTimeout(timeoutid);
-    }
-    timeoutid = setTimeout(() => {
-      //       func.apply(null, args);  .apply () take all args and add to func as seperate arguments
-      func.apply(null, args);
-    }, delay);
-  };
-};
-
 // let timeoutid;
 // const oninput = (event) => {
 //   // to prevent setTimeout from work
@@ -37,8 +29,21 @@ const debounce = (func, delay) => {
 //   }, 500);
 // };
 
-const oninput = (event) => {
-  getData(event.target.value);
+const oninput = async (event) => {
+  movies = await getData(event.target.value);
+
+  for (let movie of movies) {
+    let div = document.createElement("div");
+
+    div.innerHTML = `
+    <h1> ${movie.Title}</h1>
+     
+      <br>
+      <img src=  '${movie.Poster}'>
+     
+      `;
+    document.querySelector(" .details").appendChild(div);
+  }
 };
 
 const input = document.querySelector("input");
