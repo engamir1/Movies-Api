@@ -11,7 +11,7 @@ const getData = async (eventData) => {
 };
 // = null
 
-const debounce = (func) => {
+const debounce = (func, delay) => {
   let timeoutid;
   return (...args) => {
     if (timeoutid) {
@@ -20,24 +20,28 @@ const debounce = (func) => {
     timeoutid = setTimeout(() => {
       //       func.apply(null, args);  .apply () take all args and add to func as seperate arguments
       func.apply(null, args);
-    }, 1000);
+    }, delay);
   };
 };
 
-let timeoutid;
+// let timeoutid;
+// const oninput = (event) => {
+//   // to prevent setTimeout from work
+//   // every seTimeout has time identifire  1 - 2 - 3 ....
+//   // if u want to cancel setimeout before execut function
+//   if (timeoutid) {
+//     clearTimeout(timeoutid);
+//   }
+//   timeoutid = setTimeout(() => {
+//     getData(event.target.value);
+//   }, 500);
+// };
+
 const oninput = (event) => {
-  // to prevent setTimeout from work
-  // every seTimeout has time identifire  1 - 2 - 3 ....
-  // if u want to cancel setimeout before execut function
-  if (timeoutid) {
-    clearTimeout(timeoutid);
-  }
-  timeoutid = setTimeout(() => {
-    getData(event.target.value);
-  }, 500);
+  getData(event.target.value);
 };
 
 const input = document.querySelector("input");
-input.addEventListener("input", debounce(oninput));
+input.addEventListener("input", debounce(oninput, 1000));
 
 getData(input);
