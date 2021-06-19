@@ -1,0 +1,25 @@
+use axios to fetch data http  
+add this to .html file <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+use api key : 71eb41d3
+
+  // `params` are the URL parameters to be sent with the request
+  // Must be a plain object or a URLSearchParams object
+  params: {
+    ID: 12345
+  }
+
+
+  how to make any function work after amount of time 
+  we user debounce (الرفض)  : 
+        const debounce = (func) => {
+        let timeoutid;
+        return (...args) => {
+                    if (timeoutid) {
+                    clearTimeout(timeoutid);
+                    }
+                    timeoutid = setTimeout(() => {
+                    //       func.apply(null, args);  .apply () take all args and add to func as seperate arguments
+                    func.apply(null, args);
+                    }, 1000);
+            };
+          };
