@@ -32,21 +32,52 @@ const getData = async (eventData) => {
 const oninput = async (event) => {
   movies = await getData(event.target.value);
 
-  for (let movie of movies) {
-    let div = document.createElement("div");
+  if (!movies.length) {
+    dropdown.classList.remove("is-active");
+    return;
+  }
 
-    div.innerHTML = `
-    <h1> ${movie.Title}</h1>
-     
-      <br>
-      <img src=  '${movie.Poster}'>
-     
-      `;
-    document.querySelector(" .details").appendChild(div);
+  result.innerHTML = "";
+  dropdown.classList.add("is-active");
+
+  for (let movie of movies) {
+    const poster = movie.Poster === "N/A" ? "" : movie.Poster;
+
+    let option = document.createElement("a");
+
+    option.classList.add("dropdown-item");
+    option.innerHTML = `
+    <img src=  '${poster}'>
+    ${movie.Title} `;
+
+    result.appendChild(option);
   }
 };
 
+const root = document.querySelector(".autocomplete");
+
+root.innerHTML = `
+<h1> Enter Name</h1>
+<input type = "text" class = "input">
+    <div class="dropdown  ">
+        <div class = "dropdown-menu">
+             <div class = "dropdown-content">
+             </div>
+        </div>
+    </div> 
+
+
+`;
+
+const dropdown = document.querySelector(".dropdown");
+const result = document.querySelector(".dropdown-content");
 const input = document.querySelector("input");
+
 input.addEventListener("input", debounce(oninput, 1000));
+document.addEventListener("click", (event) => {
+  if (!root.contains(event.target)) {
+    dropdown.classList.remove("is-active");
+  }
+});
 
 getData(input);
